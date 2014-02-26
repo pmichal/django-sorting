@@ -1,4 +1,5 @@
 def get_field(self):
+    ordering = []
     try:
         field = self.REQUEST['sort']
     except (KeyError, ValueError, TypeError):
