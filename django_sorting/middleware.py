@@ -5,7 +5,8 @@ def get_field(self):
         pass
     else:
         for key in field.split(','):
-            ordering.append((self.direction == 'desc' and '-' or '') + key)
+            if key:
+                ordering.append((self.direction == 'desc' and '-' or '') + key)
     return ordering
 
 def get_direction(self):
