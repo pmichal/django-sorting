@@ -22,12 +22,9 @@ def anchor(parser, token):
     bits = [b.strip('"\'') for b in token.split_contents()]
     if len(bits) < 2:
         raise TemplateSyntaxError, "anchor tag takes at least 1 argument"
-    try:
-        title = bits[2]
-    except IndexError:
-        title = bits[1].capitalize()
-    return SortAnchorNode(bits[1].strip(), title.strip())
-    
+    sort_tag = ','.join(bits[1:-1])
+    return SortAnchorNode(sort_tag, bits[-1].strip())
+
 
 class SortAnchorNode(template.Node):
     """
