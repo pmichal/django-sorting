@@ -2,8 +2,11 @@ def get_field(self):
     try:
         field = self.REQUEST['sort']
     except (KeyError, ValueError, TypeError):
-        field = ''
-    return (self.direction == 'desc' and '-' or '') + field
+        pass
+    else:
+        for key in field.split(','):
+            ordering.append((self.direction == 'desc' and '-' or '') + key)
+    return ordering
 
 def get_direction(self):
     try:
