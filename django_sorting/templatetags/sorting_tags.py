@@ -1,4 +1,5 @@
 from django import template
+from django.core.exceptions import FieldError
 from django.http import Http404
 from django.conf import settings
 
@@ -94,7 +95,8 @@ class SortedDataNode(template.Node):
         if len(order_by) > 0:
             try:
                 context[key] = value.order_by(*order_by)
-            except template.TemplateSyntaxError:
+                context[key].first()  # evaluate query to protect from being sorted by non model field
+            except (template.TemplateSyntaxError, FieldError):
                 if INVALID_FIELD_RAISES_404:
                     raise Http404('Invalid field sorting. If DEBUG were set to ' +
                     'False, an HTTP 404 page would have been shown instead.')
