@@ -57,8 +57,11 @@ class SortAnchorNode(template.Node):
         else:
             sortdir = ''
         if sortby == self.field:
-            getvars['dir'] = sort_directions[sortdir]['inverse']
-            icon = sort_directions[sortdir]['icon']
+            try:
+                getvars['dir'] = sort_directions[sortdir]['inverse']
+                icon = sort_directions[sortdir]['icon']
+            except KeyError:
+                icon = DEFAULT_SORT_UP
         else:
             icon = ''
         if len(getvars.keys()) > 0:
