@@ -1,7 +1,10 @@
 def get_field(self):
     ordering = []
     try:
-        field = self.REQUEST['sort']
+        # REQUEST is deprecated as of Django 1.7.
+        field = self.POST.get('sort')
+        if field is None:
+            field = self.GET.get('sort')
     except (KeyError, ValueError, TypeError):
         pass
     else:
@@ -12,7 +15,11 @@ def get_field(self):
 
 def get_direction(self):
     try:
-        return self.REQUEST['dir']
+        # REQUEST is deprecated as of Django 1.7.
+        value = self.POST.get('dir')
+        if value is None:
+            value = self.GET.get('dir')
+        return value
     except (KeyError, ValueError, TypeError):
         return 'desc'
 
